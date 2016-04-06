@@ -142,7 +142,7 @@ class codeFCall : public code {
 public:
 	int type;
 	std::string id;
-    codeFCall(int type, std::string id): type(type), id(id) {};
+	codeFCall(int type, std::string id): type(type), id(id) {};
 	void print() {
 		std::cout<<"\tcall: "<<id<<"  type: ";
 		if(type == 1111) std::cout<<"SHOW DEC";
@@ -171,17 +171,17 @@ public:
 
 		switch(code){
 
-            case unDeclar:      std::cout<<"variable is not declare";   	break;
-            case notAssign:     std::cout<<"variable is not assign";    	break;
-            case Unknow:        std::cout<<"unknow syntax";             	break;
+			case unDeclar:      std::cout<<"variable is not declare";   	break;
+			case notAssign:     std::cout<<"variable is not assign";    	break;
+			case Unknow:        std::cout<<"unknow syntax";             	break;
 			case declareError:  std::cout<<"declartion syntax error";  	break;
-            case assignError:   std::cout<<"assignment syntax error";   	break;
-            case whileError:    std::cout<<"while syntax error";        	break;
-            case forError:      std::cout<<"for syntax error";          	break;
-            case ifError:       std::cout<<"if syntax error";           	break;
-            case elseError:     std::cout<<"else syntax error";      	break;
+			case assignError:   std::cout<<"assignment syntax error";   	break;
+			case whileError:    std::cout<<"while syntax error";        	break;
+			case forError:      std::cout<<"for syntax error";          	break;
+			case ifError:       std::cout<<"if syntax error";           	break;
+			case elseError:     std::cout<<"else syntax error";      	break;
 			case sameDeclar:	std::cout<<"already declare this variable";      	break;
-            default:            std::cout<<"unknow syntax";
+			default:            std::cout<<"unknow syntax";
 		}
 
 		std::cout<<"---at line "<<line<<":\n";

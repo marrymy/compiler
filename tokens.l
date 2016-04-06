@@ -1,11 +1,11 @@
 %option noyywrap
 
 %{
-#include <string>
-#include "node.cpp"
-#include "parser.cpp.h"
+	#include <string>
+	#include "node.cpp"
+	#include "parser.cpp.h"
 
-#define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
+	#define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
 
 extern IdentifierList stack_symbol;
 
@@ -35,7 +35,7 @@ int line = 1;
 							stack_symbol.push_back(new NIdentifier("0",false));
 							return '{';
 						}
-"}"						{ 
+						"}"						{ 
 							IdentifierList::const_iterator it;
 							it = stack_symbol.end()-1;					
 							while((**it).name.compare("0")!=0){

@@ -31,49 +31,49 @@ int main(int argc, char **argv)
 	if ( argc > 0 ) {
 		yyin = fopen( argv[0], "r" );
 		if(yyin){
-		std::cout<<"open:"<<argv[0]<<"\n";
-		do {
-			yyparse();
-		} while (!feof(yyin));
+			std::cout<<"open:"<<argv[0]<<"\n";
+			do {
+				yyparse();
+			} while (!feof(yyin));
 
-		if(errorlist.size()==0){
-			programBlock->cgen();
+			if(errorlist.size()==0){
+				programBlock->cgen();
 
-			if(argc==2){
-				if(strcmp(argv[1],"-IR")==0) printIR();
-				if(strcmp(argv[1],"-D")==0) printD();
-			}
+				if(argc==2){
+					if(strcmp(argv[1],"-IR")==0) printIR();
+					if(strcmp(argv[1],"-D")==0) printD();
+				}
 
-			if(argc==3){
-				if(strcmp(argv[1],"-IR")==0||strcmp(argv[2],"-IR")==0) printIR();
-				if(strcmp(argv[1],"-D")==0||strcmp(argv[2],"-D")==0) printD();
-			}
+				if(argc==3){
+					if(strcmp(argv[1],"-IR")==0||strcmp(argv[2],"-IR")==0) printIR();
+					if(strcmp(argv[1],"-D")==0||strcmp(argv[2],"-D")==0) printD();
+				}
 
-			FILE *foutput;
-			foutput = fopen("output.asm","w");
+				FILE *foutput;
+				foutput = fopen("output.asm","w");
 
-			writeStartNASM(foutput);
+				writeStartNASM(foutput);
 
-			codeList::const_iterator cit;
-			for (cit = IRcode.begin(); cit != IRcode.end(); cit++) {
-				(**cit).writeNASM(foutput);
-			}
+				codeList::const_iterator cit;
+				for (cit = IRcode.begin(); cit != IRcode.end(); cit++) {
+					(**cit).writeNASM(foutput);
+				}
 
-			writeEndNASM(foutput);
+				writeEndNASM(foutput);
 
-			fclose(foutput);
+				fclose(foutput);
 
-		}else {
-			ErrorList::const_iterator eit;
-			for (eit = errorlist.begin(); eit != errorlist.end(); eit++) {
-				(**eit).print();
+			}else {
+				ErrorList::const_iterator eit;
+				for (eit = errorlist.begin(); eit != errorlist.end(); eit++) {
+					(**eit).print();
+				}
 			}
 		}
-	}
-	else std::cout<<"!ERROR! can't open:"<<argv[0]<<"\n";
+		else std::cout<<"!ERROR! can't open:"<<argv[0]<<"\n";
 	}
 	else std::cout<<"!ERROR! please insert input\n\n";
-    return 0;
+	return 0;
 }
 
 void printIR(){
@@ -139,6 +139,6 @@ void writeEndNASM(FILE* fp){
 
 bool is_digits(const std::string &str)
 {
-    return str.find_first_not_of("0123456789") == std::string::npos;
+	return str.find_first_not_of("0123456789") == std::string::npos;
 }
 
