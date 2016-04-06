@@ -19,7 +19,7 @@ long htol(std::string);	// hex from input char* to long long
 int find(const std::string& name);
 bool findError(int);
 
-IdentifierList::const_iterator getiden;
+	IdentifierList::const_iterator getiden;
 
 ErrorList errorlist;
 NBlock *programBlock; /* the top level root node of our final AST */
@@ -271,7 +271,7 @@ $$ = new NErrorExpression(unDeclar,line);
 | '(' exp ')'        			{$$ = $2}
 
 ;
-
+//compare
 compare: exp CP_NOT_EQ exp 				{add_temp(3); $$ = new NCompareOperator(*$1,901,*$3,temp_num)}
 |exp CP_EQ exp 				{add_temp(3); $$ = new NCompareOperator(*$1,902,*$3,temp_num)}
 |exp CP_GE exp 				{add_temp(3); $$ = new NCompareOperator(*$1,903,*$3,temp_num)}
