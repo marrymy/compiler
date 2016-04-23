@@ -1,5 +1,7 @@
+cls
 bison -d -oparser.cpp parser.y 
 flex -otokens.cpp tokens.l
+Del parser.cpp.h
 rename parser.hpp parser.cpp.h
 g++ parser.cpp tokens.cpp node.cpp code.cpp main.cpp
 a.exe test.cpp

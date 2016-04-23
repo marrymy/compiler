@@ -74,6 +74,7 @@ void add_temp(int);
 %token <token> ELSE
 %token <token> WHILE
 %token <token> FOR
+%token <token> LOOP
 %token <token> showHex
 %token <token> showDec
 //operator token
@@ -184,13 +185,18 @@ statement:     error															{
 	$$ = new NErrorStatement(forError,line);
 }
 
+| LOOP '(' compare ')' '{' stmts '}'							{
+	label_loop+=2;
+	$$ = new NWhileStatement(*$3,*$6,label_loop);
+}
+
 | if															{$$ = $1; last_label_if+=1;}
 
-| showHex '(' iden ')' ';'										{
-	int t = find($3->name);
+| showHex iden ';'										{
+	int t = find($2->name);
 	if(t!=-1) {
 		getiden = stack_symbol.begin()+t;
-		if((**getiden).valid) $$ = new NFCallStatement(8888,*$3);
+		if((**getiden).valid) $$ = new NFCallStatement(8888,*$2);
 		else{
 			if(!findError(line))errorlist.push_back(new codeError(notAssign,line));
 			$$ = new NErrorStatement(notAssign,line);
@@ -202,11 +208,11 @@ statement:     error															{
 	}
 }
 
-| showDec '(' iden ')' ';'										{
-	int t = find($3->name);
+| showDec iden ';'										{
+	int t = find($2->name);
 	if(t!=-1) {
 		getiden = stack_symbol.begin()+t;
-		if((**getiden).valid) $$ = new NFCallStatement(1111,*$3);
+		if((**getiden).valid) $$ = new NFCallStatement(1111,*$2);
 		else{
 			if(!findError(line))errorlist.push_back(new codeError(notAssign,line));
 			$$ = new NErrorStatement(notAssign,line);
@@ -312,10 +318,13 @@ long htol(std::string str){
 }
 
 int find(const std::string& name){
-	for (int i=0;i<stack_symbol.size();i++) {
+	for (int i=0;i<stack_symbol.size();i++) { //$r in stack
+		//printf("name : %s i : %d", name.c_str(),i);
 		getiden = stack_symbol.begin()+i;
+		//printf("(**getiden).name : %s",(**getiden).name.c_str());
 		if((**getiden).name.compare(name)==0) return i;
 	}
+	printf("\n");
 	return -1;
 }
 

@@ -49,6 +49,7 @@ int line = 1;
 "long"					{ return LONG; }
 "for"					{ return FOR; }
 "while"					{ return WHILE; }
+"loop"					{ return LOOP; }
 "if"					{ return IF; }
 "else"					{ return ELSE; }
 
