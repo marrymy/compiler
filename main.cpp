@@ -106,12 +106,12 @@ void writeStartNASM(FILE* fp){
 	fprintf(fp, "\tglobal  main\n\textern  _printf\n");
 	
 	
-	fprintf(fp, "\n%cmacro pushIden 1\n",(char)37);
+	fprintf(fp, "\n%%macro pushIden 1\n");
 	fprintf(fp, "section .data\n");
-	fprintf(fp, "\t.str\tdb	%c1,0\n",(char)37);
+	fprintf(fp, "\t.str\tdb	%%1,0\n");
 	fprintf(fp, "section .text\n");
 	fprintf(fp, "\tpush\tdword .str\n");
-	fprintf(fp, "%cendmacro\n\n",(char)37);
+	fprintf(fp, "%%endmacro\n\n");
 
 	fprintf(fp, "\nsegment .data\n");
 	
@@ -124,8 +124,9 @@ void writeStartNASM(FILE* fp){
 		fprintf(fp, "\t%s:\tdd 0\n",(**it).name.c_str());
 	}
 
-	fprintf(fp, "\tshD:\tdb \"show %cs: %cld\",10,0\n",(char)37,(char)37);
-	fprintf(fp, "\tshH:\tdb \"show %cs: %clx\",10,0\n",(char)37,(char)37);
+	fprintf(fp, "\tshD:\tdb \"%%c%%ld\",10,0,\n");
+	fprintf(fp, "\tshH:\tdb \"%%c%%lx\",10,0,\n");
+	fprintf(fp, "\tshS:\tdb \"%%c%%c\",10,0,\n");
 
 	fprintf(fp, "\nsection .text\n");
 	fprintf(fp, "\tglobal _WinMain@16\n");

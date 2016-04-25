@@ -17,6 +17,7 @@
 
 long htol(std::string);	// hex from input char* to long long
 int find(const std::string& name);
+void test(std::string str);
 bool findError(int);
 
 	IdentifierList::const_iterator getiden;
@@ -67,6 +68,7 @@ void add_temp(int);
 %token <token> LONG
 %token <string> NUM
 %token <string> HEX
+%token <string> MSG
 %token <string> IDENTIFIER
 %token <token> UNKNOW
 //command token
@@ -77,6 +79,7 @@ void add_temp(int);
 %token <token> LOOP
 %token <token> showHex
 %token <token> showDec
+%token <token> show
 //operator token
 %left <token> '-' '+'
 %left <token> '*' '/' '%'
@@ -223,7 +226,21 @@ statement:     error															{
 		$$ = new NErrorStatement(unDeclar,line);
 	}
 }
-
+| show iden ';' 	{
+	int t = find($2->name);
+	if(t!=-1) {
+		getiden = stack_symbol.begin()+t;
+		if((**getiden).valid) {$$ = new NFCallStatement(9999,*$2);}
+		else{
+			if(!findError(line))errorlist.push_back(new codeError(notAssign,line));
+			$$ = new NErrorStatement(notAssign,line);
+		}
+	}
+	else {
+		if(!findError(line))errorlist.push_back(new codeError(unDeclar,line));
+		$$ = new NErrorStatement(unDeclar,line);
+	}
+}
 
 ;
 
@@ -316,9 +333,13 @@ long htol(std::string str){
 	}
 	return decimal;
 }
-
-int find(const std::string& name){
-	for (int i=0;i<stack_symbol.size();i++) { //$r in stack
+void test(std::string str)//$r in stack
+{
+	std::cout << str;
+}
+int find(const std::string& name)//$r in stack
+{
+	for (int i=0;i<stack_symbol.size();i++) { 
 		//printf("name : %s i : %d", name.c_str(),i);
 		getiden = stack_symbol.begin()+i;
 		//printf("(**getiden).name : %s",(**getiden).name.c_str());
