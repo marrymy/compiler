@@ -1,10 +1,14 @@
 long $r1 = 10;
+showHex $r1 ;
 long $r2 = 0;
-loop($r2 < 3){
-	$r1 = 1 + $r1;
-	$r2 = $r2 + 1;
-	showDec $r1;
+
+if($r2 < 1)
+{
+	show hello ;
 }
-if($r1==13){
-	showHex $r1 ;
+loop($r2 < 2)
+{
+	$r1 = $r1 + 1;
+	showDec $r1;
+	$r2 = $r2 + 1;
 }

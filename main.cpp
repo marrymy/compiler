@@ -126,7 +126,7 @@ void writeStartNASM(FILE* fp){
 
 	fprintf(fp, "\tshD:\tdb \"%%c%%ld\",10,0,\n");
 	fprintf(fp, "\tshH:\tdb \"%%c%%lx\",10,0,\n");
-	fprintf(fp, "\tshS:\tdb \"%%c%%c\",10,0,\n");
+	fprintf(fp, "\tshS:\tdb \"%%s\",10,0,\n");
 
 	fprintf(fp, "\nsection .text\n");
 	fprintf(fp, "\tglobal _WinMain@16\n");

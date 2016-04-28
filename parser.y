@@ -7,7 +7,6 @@
 #include <ctype.h>
 #include <iostream>
 #include <string>
-
 // stuff from flex that bison needs to know about:
 
 	extern int yylex();
@@ -19,6 +18,7 @@ long htol(std::string);	// hex from input char* to long long
 int find(const std::string& name);
 void test(std::string str);
 bool findError(int);
+bool check(std::string str);
 
 	IdentifierList::const_iterator getiden;
 
@@ -28,6 +28,8 @@ NBlock *programBlock; /* the top level root node of our final AST */
 IdentifierList stack_symbol;
 IdentifierList all_stack_symbol;
 
+char **strList = NULL;
+int count = 0;
 int temp_num = 0;
 int label_loop = 0;
 int label_if = 0;
@@ -68,7 +70,7 @@ void add_temp(int);
 %token <token> LONG
 %token <string> NUM
 %token <string> HEX
-%token <string> MSG
+//%token <string> MSG
 %token <string> IDENTIFIER
 %token <token> UNKNOW
 //command token
@@ -227,6 +229,19 @@ statement:     error															{
 	}
 }
 | show iden ';' 	{
+	if(check($2->name)){
+
+		if(find($2->name)==-1){
+			$2->valid = true;
+			stack_symbol.push_back($2);
+			all_stack_symbol.push_back($2);
+			$$ = new NLongDeclaration(*$2,0);
+		}
+		else {
+			if(!findError(line))errorlist.push_back(new codeError(sameDeclar,line));
+			$$ = new NErrorStatement(sameDeclar,line);
+		}
+	}
 	int t = find($2->name);
 	if(t!=-1) {
 		getiden = stack_symbol.begin()+t;
@@ -337,6 +352,21 @@ void test(std::string str)//$r in stack
 {
 	std::cout << str;
 }
+bool check(std::string str)
+{
+	int i;
+   	for( i = 0 ; i < count ; i++)
+   		if(!strcmp(str.c_str(),strList[i]))
+   			return false;
+	strList = (char**)realloc(strList,((count++)+1)*sizeof(*strList));
+	if (strList==NULL)
+       { puts ("Error (re)allocating memory"); exit (1); }
+   	strList[count-1] = (char*)malloc(129 * sizeof(char*));
+   	strcpy(strList[count-1], str.c_str());
+   	strList[count-1][str.length()] = '\0';
+   	
+	return true;
+}
 int find(const std::string& name)//$r in stack
 {
 	for (int i=0;i<stack_symbol.size();i++) { 
@@ -345,7 +375,7 @@ int find(const std::string& name)//$r in stack
 		//printf("(**getiden).name : %s",(**getiden).name.c_str());
 		if((**getiden).name.compare(name)==0) return i;
 	}
-	printf("\n");
+	//printf("\n");
 	return -1;
 }
 

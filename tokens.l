@@ -62,7 +62,7 @@ $r1[0-9]  				{ SAVE_TOKEN; return IDENTIFIER;  }
 $r[1-9]  				{ SAVE_TOKEN; return IDENTIFIER;  }
 0x[0-9a-f]+ 			{ SAVE_TOKEN; return HEX; }
 [0-9]+ 					{ SAVE_TOKEN; return NUM; }
-[0-9a-zA-z]+			{ SAVE_TOKEN; return MSG; }
+[0-9a-zA-z]+			{ SAVE_TOKEN; return IDENTIFIER; }
 ";" 					{ return ';';}
 [\n]					{ line++; }
 [ \t\v\f]				{  }
