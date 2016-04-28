@@ -147,6 +147,7 @@ public:
 		std::cout<<"\tcall: "<<id<<"  type: ";
 		if(type == 1111) std::cout<<"SHOW DEC";
 		else if(type == 8888) std::cout<<"SHOW HEX";
+		else if(type == 9999) std::cout<<"SHOW STR";
 		std::cout<<"\n";
 	}
 	void writeNASM(FILE* fp) {
@@ -154,6 +155,7 @@ public:
 		fprintf(fp, "\tpushIden\t\"%s\"\n",id.c_str());
 		if(type == 1111) fprintf(fp, "\tpush\tshD\n");
 		else if(type == 8888) fprintf(fp, "\tpush\tshH\n");
+		else if(type == 9999) fprintf(fp, "\tpush\tshS\n");
 		fprintf(fp, "\tcall\t_printf\n");
 		fprintf(fp, "\tadd\tesp,12\n");
 		fprintf(fp, "_FCall%d:\n",countFcall++);

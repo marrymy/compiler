@@ -8,4 +8,3 @@ a.exe test.cpp
 nasm -f elf -F stabs output.asm -ooutput.o 
 gcc -ooutput.exe output.o
 output.exe
-pause
